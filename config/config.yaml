@@ -1,0 +1,353 @@
+# Investigation Intelligence System Configuration
+
+system:
+  # Base directories
+  case_dir: "./data"
+  temp_dir: "./data/temp"
+  cache_dir: "./data/cache"
+  
+  # Processing settings
+  max_workers: 4
+  chunk_size_mb: 10
+  max_file_size_gb: 0  # 0 = unlimited
+  
+  # Logging
+  log_level: "INFO"
+  log_file: "./logs/system.log"
+  
+# LLM Configuration
+llm:
+  provider: "openai"  # Options: openai, anthropic, local
+  model: "gpt-4-turbo-preview"
+  
+  # API Keys (use environment variables for security)
+  openai_api_key: "${OPENAI_API_KEY}"
+  anthropic_api_key: "${ANTHROPIC_API_KEY}"
+  
+  # Local LLM settings (if using Ollama/LLaMA)
+  local:
+    enabled: false
+    model_path: "./models/llama-2-70b"
+    host: "http://localhost:11434"
+  
+  # Model parameters
+  temperature: 0.3
+  max_tokens: 8000
+  top_p: 0.95
+  
+# Ingestion Sources
+ingestion:
+  google_drive:
+    enabled: true
+    credentials_path: "config/credentials/google_drive_credentials.json"
+    scopes:
+      - "https://www.googleapis.com/auth/drive.readonly"
+    
+  dropbox:
+    enabled: true
+    token_path: "config/credentials/dropbox_token.txt"
+    
+  local:
+    enabled: true
+    recursive: true
+    follow_symlinks: false
+    
+  external_hd:
+    enabled: true
+    auto_detect: true  # Auto-detect mounted volumes
+    mount_points:
+      - "/Volumes/Evidence"
+      - "/Volumes/Backup"
+
+# File Processing
+processing:
+  # Chunked processing
+  chunk_size: 10485760  # 10MB chunks for large files
+  stream_threshold: 104857600  # Files >100MB are streamed
+  
+  # OCR settings
+  ocr:
+    enabled: true
+    engine: "tesseract"  # Options: tesseract, cloud_vision
+    language: "eng+por"  # English + Portuguese
+    dpi: 300
+    
+  # Audio transcription
+  audio:
+    enabled: true
+    model: "whisper-large-v3"
+    language: "auto"  # Auto-detect or specify: "en", "pt", etc.
+    speaker_diarization: true
+    
+  # Video processing
+  video:
+    enabled: true
+    extract_audio: true
+    extract_frames: true  # For visual analysis
+    frame_interval: 30  # Extract 1 frame every 30 seconds
+    
+  # Spreadsheet processing
+  spreadsheet:
+    max_rows: 1000000  # Max rows to process per sheet
+    apple_numbers: true  # Enable Apple Numbers support via AppleScript
+    
+  # Supported file types
+  supported_types:
+    documents:
+      - "pdf"
+      - "doc"
+      - "docx"
+      - "txt"
+      - "rtf"
+      - "html"
+      - "md"
+    data:
+      - "json"
+      - "csv"
+      - "xls"
+      - "xlsx"
+      - "numbers"
+    media:
+      - "jpg"
+      - "jpeg"
+      - "png"
+      - "tiff"
+      - "bmp"
+      - "gif"
+    audio:
+      - "mp3"
+      - "wav"
+      - "m4a"
+      - "flac"
+      - "ogg"
+    video:
+      - "mp4"
+      - "mov"
+      - "avi"
+      - "mkv"
+      - "webm"
+
+# Analysis Configuration
+analysis:
+  # Layer 1: Extraction (V7-style)
+  extraction:
+    enabled: true
+    custom_fields:
+      - "parties"
+      - "dates"
+      - "amounts"
+      - "accounts"
+      - "entities"
+      - "locations"
+      - "contracts"
+      - "payments"
+      - "transactions"
+    entity_types:
+      - "PERSON"
+      - "ORG"
+      - "GPE"
+      - "MONEY"
+      - "DATE"
+      - "TIME"
+      - "PERCENT"
+      - "CARDINAL"
+    confidence_threshold: 0.7
+    
+  # Layer 2: Context (NotebookLM-style)
+  context:
+    enabled: true
+    max_context_docs: 50
+    cross_reference: true
+    timeline_generation: true
+    summarization: true
+    reasoning_depth: "deep"  # Options: quick, standard, deep
+    
+  # Layer 3: Investigation
+  investigation:
+    enabled: true
+    
+    # Collusion detection
+    collusion:
+      enabled: true
+      relationship_threshold: 0.6
+      timeline_overlap: true
+      
+    # Inconsistency detection
+    inconsistency:
+      enabled: true
+      fact_checking: true
+      cross_document: true
+      
+    # Anomaly detection
+    anomaly:
+      enabled: true
+      threshold: 0.75
+      statistical_analysis: true
+      
+    # Deception indicators
+    deception:
+      enabled: true
+      linguistic_analysis: true
+      behavioral_patterns: true
+
+# Intelligence Features
+intelligence:
+  # Mind mapping
+  mind_map:
+    enabled: true
+    auto_build: true
+    max_nodes: 500
+    relationship_types:
+      - "works_with"
+      - "reports_to"
+      - "transacts_with"
+      - "mentioned_in"
+      - "related_to"
+      - "conflicts_with"
+    
+  # Self-prompting
+  self_prompting:
+    enabled: true
+    
+    # Unasked questions generation
+    unasked_questions:
+      enabled: true
+      max_questions: 50
+      priority_levels: ["critical", "high", "medium", "low"]
+      
+    # Hidden relationships
+    hidden_relationships:
+      enabled: true
+      max_hypotheses: 30
+      confidence_threshold: 0.6
+      evidence_required: true
+  
+  # Graph analysis
+  graph:
+    algorithms:
+      - "centrality"
+      - "community_detection"
+      - "path_finding"
+      - "clustering"
+
+# Output Configuration
+output:
+  # PDF Report
+  pdf:
+    enabled: true
+    
+    # Report sections
+    sections:
+      cover_page: true
+      executive_summary: true
+      key_entities: true
+      timeline: true
+      context_analysis: true
+      investigation_findings: true
+      structured_data: true
+      mind_map: true
+      unasked_questions: true
+      hidden_relationships: true
+      evidence_appendix: true
+      next_steps: true
+      
+    # Formatting
+    page_size: "A4"
+    font_family: "Helvetica"
+    include_toc: true
+    include_index: true
+    
+    # Embeddings
+    embed_mind_map: true
+    embed_graphs: true
+    embed_images: true
+    
+  # JSON Export
+  json:
+    enabled: true
+    pretty_print: true
+    include_embeddings: false
+    files:
+      - "case_summary.json"
+      - "entities.json"
+      - "timeline.json"
+      - "relationships.json"
+      - "findings.json"
+      
+  # Graph Export
+  graph:
+    enabled: true
+    formats:
+      - "json"
+      - "graphml"
+      - "png"
+      - "svg"
+    layout: "spring"  # Options: spring, circular, hierarchical
+    
+  # Embeddings (for semantic search)
+  embeddings:
+    enabled: false
+    model: "sentence-transformers/all-MiniLM-L6-v2"
+    vector_store: "chromadb"
+    export: false
+
+# Security & Privacy
+security:
+  # Encryption
+  encrypt_at_rest: false
+  encryption_key_path: "config/credentials/encryption.key"
+  
+  # Access control
+  require_authentication: false
+  audit_logging: true
+  
+  # Data retention
+  auto_cleanup: false
+  retention_days: 90
+  
+  # Anonymization
+  anonymize_pii: false
+  redact_sensitive: false
+
+# Performance & Optimization
+performance:
+  # Caching
+  enable_cache: true
+  cache_ttl: 3600  # 1 hour
+  
+  # Parallel processing
+  parallel_ingestion: true
+  parallel_processing: true
+  parallel_analysis: false  # LLM calls are sequential
+  
+  # Resource limits
+  max_memory_gb: 8
+  max_cpu_percent: 80
+  
+# Monitoring & Alerts
+monitoring:
+  enabled: true
+  
+  # Progress tracking
+  progress_bar: true
+  status_updates: true
+  
+  # Alerts
+  error_alerts: true
+  completion_alerts: true
+  
+  # Metrics
+  track_metrics: true
+  metrics_file: "./logs/metrics.json"
+
+# Advanced Features
+advanced:
+  # Custom plugins
+  plugins_enabled: false
+  plugins_dir: "./plugins"
+  
+  # Experimental features
+  experimental:
+    multimodal_analysis: true
+    predictive_modeling: false
+    automated_reporting: false
