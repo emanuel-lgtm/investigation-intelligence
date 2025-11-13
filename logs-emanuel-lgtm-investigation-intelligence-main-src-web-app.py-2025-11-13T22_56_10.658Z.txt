@@ -1,0 +1,484 @@
+
+[     UTC     ] Logs for investigation-intelligence-kdsyll2p9gfjsamskzavcy.streamlit.app/
+────────────────────────────────────────────────────────────────────────────────────────
+[22:47:31] 🖥 Provisioning machine...
+[22:47:31] 🎛 Preparing system...
+[22:47:31] ⛓ Spinning up manager process...
+[22:47:31] 🚀 Starting up repository: 'investigation-intelligence', branch: 'main', main module: 'src/web/app.py'
+[22:47:31] 🐙 Cloning repository...
+[22:47:32] 🐙 Cloning into '/mount/src/investigation-intelligence'...
+
+[22:47:32] 🐙 Cloned repository!
+[22:47:32] 🐙 Pulling code changes from Github...
+[22:47:32] 📦 Processing dependencies...
+
+──────────────────────────────────────── uv ───────────────────────────────────────────
+
+Using uv pip install.
+Using Python 3.13.9 environment at /home/adminuser/venv
+Resolved 81 packages in 756ms
+  × Failed to download and build `pillow==10.1.0`
+  ╰─▶ Build backend failed to determine requirements with `build_wheel()`
+      (exit status: 1)
+
+      [stderr]
+      Traceback (most recent call last):
+        File "<string>", line 14, in <module>
+          requires = get_requires_for_build({})
+        File
+      "/home/adminuser/.cache/uv/builds-v0/.tmpCZTU4k/lib/python3.13/site-packages/setuptools/build_meta.py",
+      line 331, in get_requires_for_build_wheel
+          return self._get_build_requires(config_settings, requirements=[])
+                 ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File
+      "/home/adminuser/.cache/uv/builds-v0/.tmpCZTU4k/lib/python3.13/site-packages/setuptools/build_meta.py",
+      line 301, in _get_build_requires
+          self.run_setup()
+          ~~~~~~~~~~~~~~^^
+        File
+      "/home/adminuser/.cache/uv/builds-v0/.tmpCZTU4k/lib/python3.13/site-packages/setuptools/build_meta.py",
+      line 317, in run_setup
+          exec(code, locals())
+          ~~~~^^^^^^^^^^^^^^^^
+        File "<string>", line 30, in <module>
+        File "<string>", line 27, in get_version
+      KeyError: '__version__'
+
+Checking if Streamlit is installed
+Installing rich for an improved exception logging
+Using uv pip install.
+Using Python 3.13.9 environment at /home/adminuser/venv
+Resolved 4 packages in 47ms
+Prepared 1 package in 45ms
+Installed 4 packages in 16ms
+ + markdown-it-py==4.0.0
+ + mdurl==0.1.2[2025-11-13 22:47:41.023583] 
+ + pygments==2.19.2
+ + rich==14.2.0
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+
+──────────────────────────────────────── pip ───────────────────────────────────────────
+
+Using standard pip install.
+Collecting streamlit==1.29.0 (from -r /mount/src/investigation-intelligence/requirements.txt (line 1))
+  Downloading streamlit-1.29.0-py2.py3-none-any.whl.metadata (8.2 kB)
+Collecting openai==1.3.0 (from -r /mount/src/investigation-intelligence/requirements.txt (line 2))
+  Downloading openai-1.3.0-py3-none-any.whl.metadata (16 kB)
+Collecting anthropic==0.7.0 (from -r /mount/src/investigation-intelligence/requirements.txt (line 3))
+  Downloading anthropic-0.7.0-py3-none-any.whl.metadata (13 kB)
+Collecting python-dotenv==1.0.0 (from -r /mount/src/investigation-intelligence/requirements.txt (line 4))
+  Downloading python_dotenv-1.0.0-py3-none-any.whl.metadata (21 kB)
+Collecting pyyaml==6.0.1 (from -r /mount/src/investigation-intelligence/requirements.txt (line 5))
+  Downloading PyYAML-6.0.1.tar.gz (125 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 125.2/125.2 kB 10.2 MB/s eta 0:00:00[2025-11-13 22:47:43.412739] 
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting PyPDF2==3.0.1 (from -r /mount/src/investigation-intelligence/requirements.txt (line 6))
+  Downloading pypdf2-3.0.1-py3-none-any.whl.metadata (6.8 kB)
+Collecting python-docx==1.1.0 (from -r /mount/src/investigation-intelligence/requirements.txt (line 7))
+  Downloading python_docx-1.1.0-py3-none-any.whl.metadata (2.0 kB)
+Collecting openpyxl==3.1.2 (from -r /mount/src/investigation-intelligence/requirements.txt (line 8))
+  Downloading openpyxl-3.1.2-py2.py3-none-any.whl.metadata (2.5 kB)
+Collecting pillow==10.1.0 (from -r /mount/src/investigation-intelligence/requirements.txt (line 9))
+  Downloading Pillow-10.1.0.tar.gz (50.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.8/50.8 MB 178.4 MB/s eta 0:00:00[2025-11-13 22:47:50.340680] 
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × Getting requirements to build wheel did not run successfully.
+  │ exit code: 1
+  ╰─> [21 lines of output]
+      Traceback (most recent call last):
+        File "/home/adminuser/venv/lib/python3.13/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 353, in <module>
+          main()
+          ~~~~^^
+        File "/home/adminuser/venv/lib/python3.13/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 335, in main
+          json_out['return_val'] = hook(**hook_input['kwargs'])
+                                   ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/home/adminuser/venv/lib/python3.13/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 118, in get_requires_for_build_wheel
+          return hook(config_settings)
+        File "/tmp/pip-build-env-vvll9tym/overlay/lib/python3.13/site-packages/setuptools/build_meta.py", line 331, in get_requires_for_build_wheel
+          return self._get_build_requires(config_settings, requirements=[])
+                 ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-vvll9tym/overlay/lib/python3.13/site-packages/setuptools/build_meta.py", line 301, in _get_build_requires
+          self.run_setup()
+          ~~~~~~~~~~~~~~^^
+        File "/tmp/pip-build-env-vvll9tym/overlay/lib/python3.13/site-packages/setuptools/build_meta.py", line 317, in run_setup
+          exec(code, locals())
+          ~~~~^^^^^^^^^^^^^^^^
+        File "<string>", line 30, in <module>
+        File "<string>", line 27, in get_version
+      KeyError: '__version__'
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: subprocess-exited-with-error
+
+× Getting requirements to build wheel did not run successfully.
+│ exit code: 1
+╰─> See above for output.
+
+note: This error originates from a subprocess, and is likely not a problem with pip.
+
+[notice] A new release of pip is available: 24.0 -> 25.3
+[notice] To update, run: pip install --upgrade pip
+Checking if Streamlit is installed
+Installing rich for an improved exception logging
+Using standard pip install.
+Collecting rich>=10.14.0
+  Downloading rich-14.2.0-py3-none-any.whl.metadata (18 kB)
+Collecting markdown-it-py>=2.2.0 (from rich>=10.14.0)
+  Downloading markdown_it_py-4.0.0-py3-none-any.whl.metadata (7.3 kB)
+Collecting pygments<3.0.0,>=2.13.0 (from rich>=10.14.0)
+  Downloading pygments-2.19.2-py3-none-any.whl.metadata (2.5 kB)
+Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich>=10.14.0)
+  Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+Downloading rich-14.2.0-py3-none-any.whl (243 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 243.4/243.4 kB 11.2 MB/s eta 0:00:00[2025-11-13 22:47:55.574896] 
+Downloading markdown_it_py-4.0.0-py3-none-any.whl (87 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.3/87.3 kB 149.8 MB/s eta 0:00:00[2025-11-13 22:47:55.588721] 
+Downloading pygments-2.19.2-py3-none-any.whl (1.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 65.3 MB/s eta 0:00:00[2025-11-13 22:47:55.620143] 
+Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Installing collected packages: pygments, mdurl, markdown-it-py, rich
+  Attempting uninstall: pygments
+    Found existing installation: Pygments 2.19.2
+    Uninstalling Pygments-2.19.2:
+      Successfully uninstalled Pygments-2.19.2
+  Attempting uninstall: mdurl
+    Found existing installation: mdurl 0.1.2
+    Uninstalling mdurl-0.1.2:
+      Successfully uninstalled mdurl-0.1.2
+  Attempting uninstall: markdown-it-py
+    Found existing installation: markdown-it-py 4.0.0
+    Uninstalling markdown-it-py-4.0.0:
+      Successfully uninstalled markdown-it-py-4.0.0
+  Attempting uninstall: rich
+    Found existing installation: rich 14.2.0
+    Uninstalling rich-14.2.0:
+      Successfully uninstalled rich-14.2.0
+Successfully installed markdown-it-py-4.0.0 mdurl-0.1.2 pygments-2.19.2 rich-14.2.0
+
+[notice] A new release of pip is available: 24.0 -> 25.3
+[notice] To update, run: pip install --upgrade pip
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+[22:47:58] ❗️ installer returned a non-zero exit code
+[22:47:58] ❗️ Error during processing dependencies! Please fix the error and push an update, or try restarting the app.
+[22:50:45] 🐙 Pulling code changes from Github...
+[22:50:45] 📦 Processing dependencies...
+
+──────────────────────────────────────── uv ───────────────────────────────────────────
+
+Using uv pip install.
+Using Python 3.13.9 environment at /home/adminuser/venv
+Resolved 81 packages in 232ms
+[22:52:16] 🖥 Provisioning machine...
+[22:52:22] 🎛 Preparing system...
+[22:52:20] 🚀 Starting up repository: 'investigation-intelligence', branch: 'main', main module: 'src/web/app.py'
+[22:52:20] 🐙 Cloning repository...
+[22:52:21] 🐙 Cloning into '/mount/src/investigation-intelligence'...
+
+[22:52:21] 🐙 Cloned repository!
+[22:52:21] 🐙 Pulling code changes from Github...
+[22:52:21] 📦 Processing dependencies...
+
+──────────────────────────────────────── uv ───────────────────────────────────────────
+
+Using uv pip install.
+Using Python 3.13.9 environment at /home/adminuser/venv[2025-11-13 22:52:21.886073] 
+Resolved 81 packages in 1.03s
+[22:52:25] ⛓ Spinning up manager process...
+Prepared 81 packages in 3m 06s
+Installed 81 packages in 727ms
+ + altair==5.5.0
+ + annotated-types==0.7.0
+ + anthropic==0.7.0
+ + anyio==3.7.1
+ + attrs==25.4.0
+ + blinker==1.9.0
+ + cachetools==5.5.2
+ + certifi==2025.11.12
+ + charset-normalizer==3.4.4
+ + click==8.3.0
+ + contourpy==1.3.3
+ + cycler==0.12.1
+ + distro==1.9.0
+ + et-xmlfile==2.0.0
+ + filelock==3.20.0
+ + fonttools==4.60.1
+ + fsspec==2025.10.0
+ + gitdb==4.0.12
+ + gitpython==3.1.45
+ + h11==0.16.0
+ + hf-xet==1.2.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + huggingface-hub==1.1.4
+ + idna==3.11
+ + importlib-metadata==6.11.0
+ + jinja2==3.1.6
+ + jsonschema==4.25.1
+ + jsonschema-specifications==2025.9.1
+ + kiwisolver==1.4.9
+ + loguru==0.7.2
+ + lxml==6.0.2
+ + markdown-it-py==4.0.0
+ + markupsafe==3.0.3
+ + matplotlib==3.8.2
+ + mdurl==0.1.2
+ + narwhals==2.11.0
+ + networkx==3.2.1
+ + numpy==1.26.4
+ + openai==1.3.0
+ + openpyxl==3.1.2
+ + packaging==23.2
+ + pandas==2.3.3
+ + pillow==10.4.0
+ + plotly==5.18.0
+ + protobuf==4.25.8
+ + pyarrow==22.0.0
+ + pydantic==2.12.4
+ + pydantic-core==2.41.5
+ + pydeck==0.9.1
+ + pygments==2.19.2
+ + pyparsing==3.2.5
+ + pypdf2==3.0.1
+ + python-dateutil==2.9.0.post0
+ + python-docx==1.1.0
+ + python-dotenv==1.0.0
+ + pytz==2025.2
+ + pyyaml==6.0.1
+ + referencing==0.37.0
+ + requests==2.32.5
+ + rich==13.7.0
+ + rpds-py==0.28.0
+ + shellingham==1.5.4
+ + six==1.17.0
+ + smmap==5.0.2
+ + sniffio==1.3.1
+ + streamlit==1.29.0
+ + tenacity==8.5.0
+ + tokenizers==0.22.1
+ + toml==0.10.2
+ + tornado==6.5.2
+ + tqdm==4.67.1
+ + typer-slim==0.20.0
+ + typing-extensions==4.15.0
+ + typing-inspection==0.4.2
+ + tzdata==2025.2
+ + tzlocal==5.3.1
+ + urllib3==2.5.0
+ + validators==0.35.0
+ + watchdog==6.0.0
+ + zipp==3.23.0
+Checking if Streamlit is installed
+[22:52:20] 🚀 Starting up repository: 'investigation-intelligence', branch: 'main', main module: 'src/web/app.py'
+[22:52:20] 🐙 Cloning repository...
+[22:52:21] 🐙 Cloning into '/mount/src/investigation-intelligence'...
+
+[22:52:21] 🐙 Cloned repository!
+[22:52:21] 🐙 Pulling code changes from Github...
+[22:52:21] 📦 Processing dependencies...
+
+──────────────────────────────────────── uv ───────────────────────────────────────────
+
+Using uv pip install.
+Using Python 3.13.9 environment at /home/adminuser/venv[2025-11-13 22:52:21.886073] 
+Resolved 81 packages in 1.03s
+Prepared 81 packages in 3m 06s
+Installed 81 packages in 727ms
+ + altair==5.5.0
+ + annotated-types==0.7.0
+ + anthropic==0.7.0
+ + anyio==3.7.1
+ + attrs==25.4.0
+ + blinker==1.9.0
+ + cachetools==5.5.2
+ + certifi==2025.11.12
+ + charset-normalizer==3.4.4
+ + click==8.3.0
+ + contourpy==1.3.3
+ + cycler==0.12.1
+ + distro==1.9.0
+ + et-xmlfile==2.0.0
+ + filelock==3.20.0
+ + fonttools==4.60.1
+ + fsspec==2025.10.0
+ + gitdb==4.0.12
+ + gitpython==3.1.45
+ + h11==0.16.0
+ + hf-xet==1.2.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + huggingface-hub==1.1.4
+ + idna==3.11
+ + importlib-metadata==6.11.0
+ + jinja2==3.1.6
+ + jsonschema==4.25.1
+ + jsonschema-specifications==2025.9.1
+ + kiwisolver==1.4.9
+ + loguru==0.7.2
+ + lxml==6.0.2
+ + markdown-it-py==4.0.0
+ + markupsafe==3.0.3
+ + matplotlib==3.8.2
+ + mdurl==0.1.2
+ + narwhals==2.11.0
+ + networkx==3.2.1
+ + numpy==1.26.4
+ + openai==1.3.0
+ + openpyxl==3.1.2
+ + packaging==23.2
+ + pandas==2.3.3
+ + pillow==10.4.0
+ + plotly==5.18.0
+ + protobuf==4.25.8
+ + pyarrow==22.0.0
+ + pydantic==2.12.4
+ + pydantic-core==2.41.5
+ + pydeck==0.9.1
+ + pygments==2.19.2
+ + pyparsing==3.2.5
+ + pypdf2==3.0.1
+ + python-dateutil==2.9.0.post0
+ + python-docx==1.1.0
+ + python-dotenv==1.0.0
+ + pytz==2025.2
+ + pyyaml==6.0.1
+ + referencing==0.37.0
+ + requests==2.32.5
+ + rich==13.7.0
+ + rpds-py==0.28.0
+ + shellingham==1.5.4
+ + six==1.17.0
+ + smmap==5.0.2
+ + sniffio==1.3.1
+ + streamlit==1.29.0
+ + tenacity==8.5.0
+ + tokenizers==0.22.1
+ + toml==0.10.2
+ + tornado==6.5.2
+ + tqdm==4.67.1
+ + typer-slim==0.20.0
+ + typing-extensions==4.15.0
+ + typing-inspection==0.4.2
+ + tzdata==2025.2
+ + tzlocal==5.3.1
+ + urllib3==2.5.0
+ + validators==0.35.0
+ + watchdog==6.0.0
+ + zipp==3.23.0
+Checking if Streamlit is installed
+/home/adminuser/venv/lib/python3.13/site-packages/streamlit/elements/lib/column_types.py:442: SyntaxWarning: invalid escape sequence '\.'
+  >>>             validate="^st\.[a-z_]+$",
+/home/adminuser/venv/lib/python3.13/site-packages/streamlit/elements/lib/column_types.py:540: SyntaxWarning: invalid escape sequence '\.'
+  >>>             validate="^https://[a-z]+\.streamlit\.app$",
+/home/adminuser/venv/lib/python3.13/site-packages/streamlit/elements/layouts.py:470: SyntaxWarning: invalid escape sequence '\.'
+  backslash-escaping them. E.g. ``1\. Not an ordered list``.
+Found Streamlit version 1.29.0 in the environment
+Installing rich for an improved exception logging
+Using uv pip install.
+Using Python 3.13.9 environment at /home/adminuser/venv[2025-11-13 22:55:35.003104] 
+Audited [2025-11-13 22:55:35.008144] 1 package[2025-11-13 22:55:35.008330]  [2025-11-13 22:55:35.008531] in 6ms[2025-11-13 22:55:35.008710] 
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+[22:55:35] 🐍 Python dependencies were installed from /mount/src/investigation-intelligence/requirements.txt using uv.
+Check if streamlit is installed
+Streamlit is already installed
+[22:55:36] 📦 Processed dependencies!
+Traceback (most recent call last):
+  File "/home/adminuser/venv/bin/streamlit", line 8, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/click/core.py", line 1462, in __call__
+    return self.main(*args, **kwargs)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/click/core.py", line 1383, in main
+    rv = self.invoke(ctx)
+  File "/home/adminuser/venv/lib/python3.13/site-packages/click/core.py", line 1850, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/click/core.py", line 1246, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/click/core.py", line 814, in invoke
+    return callback(*args, **kwargs)
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/web/cli.py", line 233, in main_run
+    _main_run(target, args, flag_options=kwargs)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/web/cli.py", line 269, in _main_run
+    bootstrap.run(file, command_line, args, flag_options)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/web/bootstrap.py", line 410, in run
+    _install_config_watchers(flag_options)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/web/bootstrap.py", line 376, in _install_config_watchers
+    watch_file(filename, on_config_changed)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/watcher/path_watcher.py", line 142, in watch_file
+    return _watch_path(path, on_file_changed, watcher_type)
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/watcher/path_watcher.py", line 128, in _watch_path
+    watcher_class(
+    ~~~~~~~~~~~~~^
+        path,
+        ^^^^^
+    ...<2 lines>...
+        allow_nonexistent=allow_nonexistent,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/watcher/event_based_path_watcher.py", line 92, in __init__
+    path_watcher.watch_path(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        self._path,
+        ^^^^^^^^^^^
+    ...<2 lines>...
+        allow_nonexistent=allow_nonexistent,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/streamlit/watcher/event_based_path_watcher.py", line 170, in watch_path
+    folder_handler.watch = self._observer.schedule(
+                           ~~~~~~~~~~~~~~~~~~~~~~~^
+        folder_handler, folder_path, recursive=True
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/watchdog/observers/api.py", line 312, in schedule
+    emitter.start()
+    ~~~~~~~~~~~~~^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/watchdog/utils/__init__.py", line 75, in start
+    self.on_thread_start()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/watchdog/observers/inotify.py", line 119, in on_thread_start
+    self._inotify = InotifyBuffer(path, recursive=self.watch.is_recursive, event_mask=event_mask)
+                    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/watchdog/observers/inotify_buffer.py", line 30, in __init__
+    self._inotify = Inotify(path, recursive=recursive, event_mask=event_mask)
+                    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/watchdog/observers/inotify_c.py", line 149, in __init__
+    Inotify._raise_error()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/adminuser/venv/lib/python3.13/site-packages/watchdog/observers/inotify_c.py", line 438, in _raise_error
+    raise OSError(errno.EMFILE, "inotify instance limit reached")
+OSError: [Errno 24] inotify instance limit reached
+[22:55:40] 🐙 Pulling code changes from Github...
+[22:55:40] 📦 Processing dependencies...
+[22:55:40] 📦 Processed dependencies!
+[22:55:43] 🔄 Updated app!
+[22:55:43] 🐙 Pulling code changes from Github...
+[22:55:43] 📦 Processing dependencies...
+[22:55:43] 📦 Processed dependencies!
+[22:55:46] 🔄 Updated app!
