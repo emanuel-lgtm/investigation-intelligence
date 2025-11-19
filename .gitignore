@@ -1,5 +1,40 @@
-venv/
+# Python
 __pycache__/
-.streamlit/secrets.toml
-.env
-data/
+*.pyc
+*.pyo
+
+# Virtual env
+venv/
+
+# macOS Finder garbage
+.DS_Store
+*/Icon\r
+Icon\r
+**/Icon?
+
+# Streamlit cache
+.streamlit/
+
+# Legacy TESE V8 / old UI / junk
+Archive/
+Claude/
+examples/
+src/
+pages/
+*_OLD.py
+app1.py
+app2.py
+app_OLD.py
+appClaude.py
+appchatgpt.py
+app_checkpoint_a.py
+4_*.py
+Untitled.txt
+tese_engine_backups/
+
+# Exports & temp files
+*.pdf
+*.zip
+*.tese
+data/exports/
+

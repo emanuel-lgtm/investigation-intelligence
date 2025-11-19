@@ -1,394 +1,210 @@
 import streamlit as st
-import os
 
-# Page config
-st.set_page_config(
-    page_title="Investigation Intelligence System",
-    page_icon="🔍",
-    layout="wide",
-    initial_sidebar_state="expanded"
+from case_manager import (
+    load_cases,
+    save_cases,
+    create_case,
 )
+from ui_studio_panel import render_studio_panel
+from ui_theme import inject_global_css, render_header
 
-# Custom CSS matching projetoabc.netlify.app style
-st.markdown("""
-<style>
-    /* Import Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
-    
-    /* Global Styles */
-    * {
-        font-family: 'Inter', sans-serif;
-    }
-    
-    .main {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 2rem;
-    }
-    
-    .block-container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-        max-width: 1200px;
-    }
-    
-    /* Hero Header */
-    .hero-header {
-        text-align: center;
-        padding: 3rem 0;
-        margin-bottom: 3rem;
-    }
-    
-    .hero-title {
-        font-size: 4rem;
-        font-weight: 800;
-        color: white;
-        text-shadow: 0 4px 20px rgba(0,0,0,0.2);
-        margin-bottom: 1rem;
-        line-height: 1.2;
-    }
-    
-    .hero-subtitle {
-        font-size: 1.5rem;
-        color: rgba(255,255,255,0.9);
-        font-weight: 300;
-        margin-bottom: 2rem;
-    }
-    
-    /* Glass Card */
-    .glass-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 2rem;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-        border: 1px solid rgba(255,255,255,0.2);
-        margin-bottom: 2rem;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .glass-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 48px rgba(0,0,0,0.15);
-    }
-    
-    /* Feature Cards */
-    .feature-card {
-        background: white;
-        border-radius: 15px;
-        padding: 2rem;
-        text-align: center;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        height: 100%;
-        transition: all 0.3s ease;
-    }
-    
-    .feature-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
-    }
-    
-    .feature-icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-    }
-    
-    .feature-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #667eea;
-        margin-bottom: 0.5rem;
-    }
-    
-    .feature-text {
-        color: #64748b;
-        font-size: 1rem;
-        line-height: 1.6;
-    }
-    
-    /* Buttons */
-    .stButton>button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        padding: 1rem 3rem;
-        font-size: 1.1rem;
-        font-weight: 600;
-        border-radius: 50px;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        transition: all 0.3s ease;
-    }
-    
-    .stButton>button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
-    }
-    
-    /* Sidebar */
-    .css-1d391kg, [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
-    }
-    
-    .css-1d391kg .stMarkdown, [data-testid="stSidebar"] .stMarkdown {
-        color: white;
-    }
-    
-    /* Metrics */
-    .metric-container {
-        background: white;
-        border-radius: 15px;
-        padding: 1.5rem;
-        text-align: center;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
-    
-    .metric-value {
-        font-size: 2.5rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 0.5rem;
-    }
-    
-    .metric-label {
-        color: #64748b;
-        font-size: 1rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    
-    /* Status Cards */
-    .status-card {
-        background: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-        border-left: 4px solid #667eea;
-    }
-    
-    .status-title {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #1e293b;
-        margin-bottom: 1rem;
-    }
-    
-    /* Hide Streamlit branding */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    
-    /* Success/Error boxes */
-    .stSuccess, .stError, .stInfo, .stWarning {
-        border-radius: 10px;
-        padding: 1rem;
-    }
-</style>
-""", unsafe_allow_html=True)
 
-# Initialize session state
-if 'current_case' not in st.session_state:
-    st.session_state.current_case = None
-if 'cases' not in st.session_state:
-    st.session_state.cases = []
+def _get_selected_case_index(cases):
+    """
+    Helper para recuperar/armazenar o índice do case selecionado
+    na session_state, para manter seleção estável entre reruns.
+    """
+    if "selected_case_index" not in st.session_state:
+        st.session_state["selected_case_index"] = 0
 
-# Hero Section
-st.markdown("""
-<div class="hero-header">
-    <div class="hero-title">🔍 Investigation Intelligence</div>
-    <div class="hero-subtitle">AI-Powered Investigation & Analysis Platform</div>
-</div>
-""", unsafe_allow_html=True)
+    if not cases:
+        st.session_state["selected_case_index"] = 0
+        return 0
 
-# Main content in glass card
-with st.container():
-    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    
-    # Welcome message
-    st.markdown("""
-    <div style="text-align: center; padding: 2rem 0;">
-        <h2 style="color: #1e293b; font-weight: 700; margin-bottom: 1rem;">
-            Transform Your Investigation Process
-        </h2>
-        <p style="color: #64748b; font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
-            Leverage cutting-edge AI technology to analyze documents, discover relationships, 
-            and generate comprehensive investigation reports in minutes.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+    idx = st.session_state["selected_case_index"]
+    if idx < 0 or idx >= len(cases):
+        idx = 0
+    return idx
 
-# Feature Cards
-st.markdown("### 🎯 Key Features")
 
-col1, col2, col3, col4 = st.columns(4)
+def _render_cases_overview(cases, selected_index: int):
+    """
+    Renderiza um mini 'grid' de cases, apenas visual.
+    NÃO altera a lógica de seleção, só mostra informações.
+    """
+    if not cases:
+        return
 
-with col1:
-    st.markdown("""
-    <div class="feature-card">
-        <div class="feature-icon">♾️</div>
-        <div class="feature-title">Unlimited</div>
-        <div class="feature-text">Process files of any size with no restrictions</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("### Visão geral dos cases")
 
-with col2:
-    st.markdown("""
-    <div class="feature-card">
-        <div class="feature-icon">🤖</div>
-        <div class="feature-title">AI-Powered</div>
-        <div class="feature-text">Advanced entity extraction and analysis</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col3:
-    st.markdown("""
-    <div class="feature-card">
-        <div class="feature-icon">🗺️</div>
-        <div class="feature-title">Visualizations</div>
-        <div class="feature-text">Interactive relationship maps and timelines</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col4:
-    st.markdown("""
-    <div class="feature-card">
-        <div class="feature-icon">📄</div>
-        <div class="feature-title">Reports</div>
-        <div class="feature-text">Professional PDF reports in seconds</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-st.markdown("---")
-
-# Quick Start Section
-st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-
-col1, col2 = st.columns([2, 1])
-
-with col1:
-    st.markdown("""
-    <div style="padding: 1rem 0;">
-        <h3 style="color: #1e293b; font-weight: 700; margin-bottom: 1.5rem;">🚀 Quick Start Guide</h3>
-        <div style="color: #64748b; font-size: 1.1rem; line-height: 2;">
-            <div style="margin-bottom: 1rem;">
-                <strong style="color: #667eea;">1. Create a Case</strong> → Organize your investigation
-            </div>
-            <div style="margin-bottom: 1rem;">
-                <strong style="color: #667eea;">2. Upload Files</strong> → Documents, images, audio, video
-            </div>
-            <div style="margin-bottom: 1rem;">
-                <strong style="color: #667eea;">3. Process</strong> → AI analyzes everything automatically
-            </div>
-            <div style="margin-bottom: 1rem;">
-                <strong style="color: #667eea;">4. Review</strong> → Explore entities, relationships, timeline
-            </div>
-            <div>
-                <strong style="color: #667eea;">5. Generate Report</strong> → Professional PDF output
-            </div>
+    # Callout explicando o painel
+    st.markdown(
+        """
+        <div class="tese-callout">
+          Esta visão mostra todos os cases salvos pelo <code>case_manager</code>.
+          Selecionar um case na barra lateral atualiza o estúdio abaixo.
         </div>
-    </div>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True,
+    )
 
-with col2:
-    st.markdown("""
-    <div class="status-card">
-        <div class="status-title">📊 Statistics</div>
-        <div class="metric-container" style="margin-bottom: 1rem;">
-            <div class="metric-value">{}</div>
-            <div class="metric-label">Total Cases</div>
-        </div>
-        <div class="metric-container">
-            <div class="metric-value">{}</div>
-            <div class="metric-label">Active Case</div>
-        </div>
-    </div>
-    """.format(
-        len(st.session_state.cases),
-        st.session_state.current_case or "None"
-    ), unsafe_allow_html=True)
+    # Cabeçalho
+    cols_head = st.columns([3, 1.5, 1.5, 1.8])
+    cols_head[0].markdown("**Case**")
+    cols_head[1].markdown("**Status**")
+    cols_head[2].markdown("**Criado em**")
+    cols_head[3].markdown("**Exports**")
 
-st.markdown('</div>', unsafe_allow_html=True)
+    for i, case in enumerate(cases):
+        is_selected = (i == selected_index)
+        exports = case.get("exports", {}) or {}
+        pdf_ok = bool(exports.get("pdf"))
+        bundle_ok = bool(exports.get("bundle"))
+        json_ok = bool(exports.get("json_summary")) or bool(exports.get("json_messages"))
 
-# System Status
-st.markdown("---")
+        label = case["name"]
+        if is_selected:
+            label = f"👉 {label}"
 
-st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+        cols = st.columns([3, 1.5, 1.5, 1.8])
 
-col1, col2 = st.columns(2)
+        with cols[0]:
+            st.markdown(
+                f"- **{label}**  \n"
+                f"`{case['id']}`",
+                unsafe_allow_html=False,
+            )
 
-with col1:
-    st.markdown('<div class="status-card">', unsafe_allow_html=True)
-    st.markdown('<div class="status-title">🔑 API Configuration</div>', unsafe_allow_html=True)
-    
-    openai_key = os.getenv("OPENAI_API_KEY") or st.secrets.get("OPENAI_API_KEY", "")
-    anthropic_key = os.getenv("ANTHROPIC_API_KEY") or st.secrets.get("ANTHROPIC_API_KEY", "")
-    
-    if openai_key:
-        st.success("✅ OpenAI API Configured")
-    else:
-        st.error("❌ OpenAI API Not Configured")
-    
-    if anthropic_key:
-        st.success("✅ Anthropic API Configured")
-    else:
-        st.error("❌ Anthropic API Not Configured")
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+        with cols[1]:
+            st.markdown(case.get("status", "new"))
 
-with col2:
-    st.markdown('<div class="status-card">', unsafe_allow_html=True)
-    st.markdown('<div class="status-title">ℹ️ System Information</div>', unsafe_allow_html=True)
-    st.info("""
-    **Version:** 1.0.0  
-    **Python:** 3.13  
-    **Status:** ✅ Online  
-    **Uptime:** 24/7
-    """)
-    st.markdown('</div>', unsafe_allow_html=True)
+        with cols[2]:
+            st.markdown(str(case.get("created", "")))
 
-st.markdown('</div>', unsafe_allow_html=True)
+        with cols[3]:
+            exports_bits = []
+            if pdf_ok:
+                exports_bits.append("📄 PDF")
+            if json_ok:
+                exports_bits.append("🧾 JSON")
+            if bundle_ok:
+                exports_bits.append("📦 Bundle")
+            if not exports_bits:
+                exports_bits.append("—")
 
-# CTA Button
-st.markdown("<br>", unsafe_allow_html=True)
-col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    if st.button("🎈 Test System", use_container_width=True):
-        st.balloons()
-        st.success("✅ All systems operational! Navigate to Cases to get started.")
+            st.markdown(" · ".join(exports_bits))
 
-# Footer
-st.markdown("""
-<div style="text-align: center; padding: 2rem 0; color: white;">
-    <p style="font-size: 0.9rem; opacity: 0.8;">
-        Investigation Intelligence System v1.0.0 | Powered by OpenAI & Anthropic
-    </p>
-</div>
-""", unsafe_allow_html=True)
 
-# Sidebar styling
-with st.sidebar:
-    st.markdown("""
-    <div style="text-align: center; padding: 1rem 0;">
-        <h1 style="color: white; font-size: 2rem; margin-bottom: 0.5rem;">🔍</h1>
-        <h3 style="color: white; font-weight: 300;">Investigation</h3>
-        <h3 style="color: white; font-weight: 700; margin-top: -0.5rem;">Intelligence</h3>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("---")
-    
-    if st.session_state.current_case:
-        st.success(f"**Active Case:**\n\n{st.session_state.current_case}")
-    else:
-        st.info("**No Case Selected**\n\nCreate a case to get started")
-    
-    st.markdown("---")
-    
-    st.markdown("### 📍 Navigation")
-    st.page_link("pages/1_📂_Cases.py", label="Cases Management", icon="📂")
-    st.page_link("pages/2_📤_Upload.py", label="Upload Documents", icon="📤")
-    st.page_link("pages/3_⚙️_Process.py", label="Process Files", icon="⚙️")
-    st.page_link("pages/4_🔍_Analysis.py", label="View Analysis", icon="🔍")
-    st.page_link("pages/5_📄_Reports.py", label="Generate Reports", icon="📄")
+def main():
+    st.set_page_config(
+        page_title="TESE V9 – Investigation Studio",
+        page_icon="🧠",
+        layout="wide",
+        initial_sidebar_state="expanded",
+    )
+
+    # 🎨 Tema global (NÃO mexe em backend)
+    inject_global_css()
+    render_header()
+
+    # Container principal para manter consistência visual
+    with st.container():
+        st.markdown(
+            '<div class="tese-page-container">',
+            unsafe_allow_html=True,
+        )
+
+        st.markdown(
+            """
+            <div class="tese-main-title">TESE V9 – Investigation Studio</div>
+            <div class="tese-main-subtitle">
+              Selecione ou crie um case na barra lateral e use o estúdio para ingestão,
+              análise e geração de relatórios.
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        # ------------------------------------------------------------
+        # 1) Carregar cases existentes
+        # ------------------------------------------------------------
+        cases = load_cases()
+
+        # ------------------------------------------------------------
+        # 2) Sidebar: seleção e criação de casos
+        # ------------------------------------------------------------
+        st.sidebar.header("Cases")
+
+        if not cases:
+            st.sidebar.info("Nenhum case cadastrado ainda. Crie o primeiro case abaixo.")
+
+        # Form para criar novo case
+        with st.sidebar.form(key="create_case_form"):
+            new_case_name = st.text_input("Nome do novo case")
+            new_case_sources_raw = st.text_input(
+                "Fontes (opcional, separado por vírgulas)",
+                help="Ex.: WhatsApp, Slack, E-mail",
+            )
+            create_clicked = st.form_submit_button("Criar case")
+
+        if create_clicked and new_case_name.strip():
+            sources = []
+            if new_case_sources_raw.strip():
+                sources = [s.strip() for s in new_case_sources_raw.split(",") if s.strip()]
+
+            new_case = create_case(
+                name=new_case_name.strip(),
+                sources=sources,
+                owner=None,
+            )
+            cases.append(new_case)
+            save_cases(cases)
+            # garante que o novo case fique selecionado
+            st.session_state["selected_case_index"] = len(cases) - 1
+            st.success(f"Case '{new_case_name.strip()}' criado com sucesso.")
+            st.experimental_rerun()
+
+        # Se não houver cases depois da criação, exibe mensagem e encerra
+        if not cases:
+            st.markdown(
+                '<div class="tese-callout">Crie um case na barra lateral para começar a usar o estúdio.</div>',
+                unsafe_allow_html=True,
+            )
+            st.markdown("</div>", unsafe_allow_html=True)
+            return
+
+        # Seleção de case existente
+        current_idx = _get_selected_case_index(cases)
+
+        case_labels = [
+            f"{c['name']} ({c['id']})"
+            for c in cases
+        ]
+
+        selected_index = st.sidebar.selectbox(
+            "Selecionar case",
+            options=list(range(len(cases))),
+            format_func=lambda i: case_labels[i],
+            index=current_idx,
+        )
+        st.session_state["selected_case_index"] = selected_index
+        selected_case = cases[selected_index]
+
+        # ------------------------------------------------------------
+        # 3) Visão geral dos cases (lista bonita, só visual)
+        # ------------------------------------------------------------
+        _render_cases_overview(cases, selected_index)
+
+        st.markdown("---")
+
+        # ------------------------------------------------------------
+        # 4) Painel Studio (toda a lógica pesada está em ui_studio_panel)
+        # ------------------------------------------------------------
+        st.subheader("Studio do case selecionado")
+        render_studio_panel(case=selected_case)
+
+        st.markdown("</div>", unsafe_allow_html=True)  # fecha .tese-page-container
+
+
+if __name__ == "__main__":
+    main()
